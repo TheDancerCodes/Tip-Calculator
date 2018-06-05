@@ -16,18 +16,23 @@ class RestaurantCalculatorTest {
 
     @Test
     fun testCalculateTip() {
-        val checkInput = 10.00
-        val tipPctInput = 25
 
-        val expectedTipResult = TipCalculation(
-                checkAmount = checkInput,
-                tipPct = 25,
-                tipAmount = 2.50,
-                grandTotal = 12.50
-        )
+        val baseTc = TipCalculation(checkAmount = 10.00)
 
-        assertEquals(expectedTipResult,
-                calculator.calculateTip(checkInput, tipPctInput))
+        // Copies of the Base Tip  Calculation (baseTc)
+        val testVals = listOf(
+                baseTc.copy(tipPct = 20, tipAmount = 2.0, grandTotal = 12.00),
+                baseTc.copy(tipPct = 15, tipAmount = 1.5, grandTotal = 11.50),
+                baseTc.copy(tipPct = 18, tipAmount = 1.8, grandTotal = 11.80))
 
+        // Iterate over each one of the testVals list.
+        // Easier to see what we are testing & add on additional tip percentages & variations
+        // if we want to later
+        testVals.forEach {
+
+            assertEquals(it,
+                    calculator.calculateTip(it.checkAmount, it.tipPct))
+
+        }
     }
 }

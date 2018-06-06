@@ -13,6 +13,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // In order to use app:srcCompat attribute with a vector image, we need to
+        // enable the use of the support lib with vector drawables.
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {

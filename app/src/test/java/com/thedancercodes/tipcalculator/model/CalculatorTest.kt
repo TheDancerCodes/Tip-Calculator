@@ -5,13 +5,13 @@ import org.junit.Before
 import org.junit.Test
 
 
-class RestaurantCalculatorTest {
+class CalculatorTest {
 
-    lateinit var calculator: RestaurantCalculator
+    lateinit var calculator: Calculator
 
     @Before
     fun setup() {
-        calculator = RestaurantCalculator()
+        calculator = Calculator()
     }
 
     @Test

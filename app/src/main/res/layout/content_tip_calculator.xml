@@ -9,8 +9,8 @@
     android:layout_margin="8dp"
     android:paddingBottom="26dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.thedancercodes.tipcalculator.view.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.thedancercodes.tipcalculator.view.TipCalculatorActivity"
+    tools:showIn="@layout/activity_tip_calculator">
 
     <!--View to provide calculation inputs-->
     <android.support.design.widget.TextInputLayout

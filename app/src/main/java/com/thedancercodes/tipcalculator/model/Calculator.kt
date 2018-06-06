@@ -3,7 +3,7 @@ package com.thedancercodes.tipcalculator.model
 import java.math.RoundingMode
 
 
-class RestaurantCalculator {
+class Calculator {
 
     fun calculateTip(checkAmount: Double, tipPct: Int) : TipCalculation {
 

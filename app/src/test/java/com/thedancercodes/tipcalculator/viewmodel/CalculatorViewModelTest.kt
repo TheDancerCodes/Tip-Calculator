@@ -1,8 +1,13 @@
 package com.thedancercodes.tipcalculator.viewmodel
 
+import com.thedancercodes.tipcalculator.model.Calculator
+import com.thedancercodes.tipcalculator.model.TipCalculation
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
 
 /**
  * Created by TheDancerCodes on 06/06/2018.
@@ -22,10 +27,19 @@ class CalculatorViewModelTest {
 
     lateinit var calculatorViewModel: CalculatorViewModel
 
+    // Mocking the Calculator Model
+    @Mock
+    lateinit var mockCalculator: Calculator
+
     // Re-initialize the ViewModel before every test.
     @Before
     fun setup() {
-        calculatorViewModel = CalculatorViewModel()
+        // Initialize any member variables in this class that are annotated with @Mock making them
+        // Mock objects.
+        MockitoAnnotations.initMocks(this)
+
+        // CalculatorViewModel Constructor
+        calculatorViewModel = CalculatorViewModel(mockCalculator)
     }
 
     // Simple test that sets the inputs on the ViewModel, invokes calculateTip() on the ViewModel's
@@ -36,13 +50,46 @@ class CalculatorViewModelTest {
         calculatorViewModel.inputCheckAmount = "10.00"
         calculatorViewModel.inputTipPercentage = "15"
 
+        // When the View Model calls calculateTip() on the Calculator with the inputs we expect
+        // we can provide a stub TipCalculation in response & assert that the stub gets set as the
+        // output TipCalculation.
+        val stub = TipCalculation(checkAmount = 10.00, tipAmount = 1.5, grandTotal = 11.5)
+        `when`(mockCalculator.calculateTip(10.00, 15)).thenReturn(stub)
+
         calculatorViewModel.calculateTip()
 
-        assertEquals(10.00, calculatorViewModel.tipCalculation.checkAmount)
-        assertEquals(1.50, calculatorViewModel.tipCalculation.tipAmount)
-        assertEquals(11.50, calculatorViewModel.tipCalculation.grandTotal)
+        assertEquals(stub, calculatorViewModel.tipCalculation)
     }
 
+    // Validate that the View Model doesn't call calculateTip() on the Model
+    // if the inputs are invalid
 
+    @Test
+    fun testCalculateTipBadTipPercent() {
+
+        // Given a bad tip percentage
+        calculatorViewModel.inputCheckAmount = "10.00"
+        calculatorViewModel.inputTipPercentage = "" // Empty string is not a valid Int
+
+        calculatorViewModel.calculateTip()
+
+        // Validate the calculateTip() never gets called for any Double or Int
+        verify(mockCalculator, never()).calculateTip(anyDouble(), anyInt())
+
+    }
+
+    @Test
+    fun testCalculateTipBadCheckInputAmount() {
+
+        // Given a bad check amount
+        calculatorViewModel.inputCheckAmount = "" // Empty string is not a valid Double
+        calculatorViewModel.inputTipPercentage = "15"
+
+        calculatorViewModel.calculateTip()
+
+        // Validate the calculateTip() never gets called for any Double or Int
+        verify(mockCalculator, never()).calculateTip(anyDouble(), anyInt())
+
+    }
 
 }

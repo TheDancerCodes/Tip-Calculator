@@ -52,8 +52,8 @@
             android:selectAllOnFocus="true"/>
 
     </android.support.design.widget.TextInputLayout>
-    
-    
+
+
     <!--View to show our calculation outputs-->
     <LinearLayout
         android:id="@+id/calculation_outputs"

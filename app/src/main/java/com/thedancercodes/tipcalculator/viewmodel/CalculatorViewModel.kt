@@ -1,5 +1,7 @@
 package com.thedancercodes.tipcalculator.viewmodel
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.thedancercodes.tipcalculator.model.Calculator
 import com.thedancercodes.tipcalculator.model.TipCalculation
 
@@ -31,6 +33,9 @@ class CalculatorViewModel(val calculator: Calculator = Calculator()) {
      *
      */
     fun calculateTip() {
+
+        // Logs to show that we invoke the calculateTip() function on the VM when FAB is clicked.
+        Log.d(TAG, "calculateTipInvoked")
 
         // Validate and translate the values that will be set by the View into the required types:
         val checkAmount = inputCheckAmount.toDoubleOrNull()

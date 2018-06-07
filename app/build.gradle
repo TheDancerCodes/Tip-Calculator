@@ -24,6 +24,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Turn on Data Binding for the project
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -37,6 +42,11 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
     implementation "com.android.support:design:$support_library"
     implementation "com.android.support:support-v4:$support_library"
+
+    // Kotlin Annotation Processor Dependency on the Android Data Binding Compiler
+    kapt "com.android.databinding:compiler:$android_plugin"
+
+
 
 
     // Test

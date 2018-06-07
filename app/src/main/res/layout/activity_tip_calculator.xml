@@ -29,7 +29,12 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_tip_calculator" />
+        <!-- Add special dynamic attribute (available with data binding) that allows you
+               to pass a variable by reference to a child layout-->
+        <include
+            android:id="@+id/content"
+            app:vm="@{vm}"
+            layout="@layout/content_tip_calculator" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

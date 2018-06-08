@@ -12,10 +12,8 @@ import com.thedancercodes.tipcalculator.R
 import com.thedancercodes.tipcalculator.databinding.ActivityTipCalculatorBinding
 import com.thedancercodes.tipcalculator.viewmodel.CalculatorViewModel
 
-import kotlinx.android.synthetic.main.activity_tip_calculator.*
 
-
-class TipCalculatorActivity : AppCompatActivity() {
+class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback {
 
     /**
      * Wire ViewModel to View layout in the Activity’s onCreate function & verify that the
@@ -26,6 +24,38 @@ class TipCalculatorActivity : AppCompatActivity() {
 
     // DataBinding Variable
     lateinit var binding: ActivityTipCalculatorBinding
+
+    // Snack bar to show user that we have saved tip under the name they entered
+    override fun onSaveTip(name: String) {
+        Snackbar.make(binding.root, "Saved $name", Snackbar.LENGTH_SHORT).show()
+    }
+
+    // Create a clickable menu item on the upper right corner for our users
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_tip_calcukator, menu)
+        return true
+    }
+
+    // Responding to the user clicking on a menu item
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        // Switch statement: If itemId of the item we just saved matches the action_save id,
+        // we display the SaveDialog
+        return when(item.itemId) {
+            R.id.action_save -> {
+                showSaveDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    // showSaveDialog creates a new instance of our SaveDialogFragment & ask it to show itself.
+    private fun showSaveDialog() {
+        val saveFragment = SaveDialogFragment()
+        saveFragment.show(supportFragmentManager, "SaveDialog")
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -56,22 +86,6 @@ class TipCalculatorActivity : AppCompatActivity() {
         Log.d(TAG, "onDestroy")
         super.onDestroy()
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        return when (item.itemId) {
-//            R.id.action_settings -> true
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
 }
 
 const val TAG = "TipCalculatorActivity"

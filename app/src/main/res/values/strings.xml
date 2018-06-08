@@ -11,5 +11,10 @@
     <!--A new string to format a double in the format of a currency that we expect with a $
             and 2 decimal places after the dollar amount -->
     <string name="dollar_amount">$%1$.02f</string>
+    
+    
+    <string name="save_hint">Enter Location</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
 
 </resources>

@@ -1,9 +1,11 @@
 package com.thedancercodes.tipcalculator.view
 
+import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.thedancercodes.tipcalculator.R
@@ -26,6 +28,9 @@ class TipCalculatorActivity : AppCompatActivity() {
     lateinit var binding: ActivityTipCalculatorBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        Log.d(TAG, "onCreate")
+
         super.onCreate(savedInstanceState)
 
         // Replace Android setContentView with a special DataBinding version which associates
@@ -34,7 +39,9 @@ class TipCalculatorActivity : AppCompatActivity() {
 
 
         // Set the `vm` variable to a new CalculatorViewModel instance
-        binding.vm = CalculatorViewModel(application)
+        // This is the magic that creates a new instance of the ViewModel when the app is first
+        // launched & then returns the same instance between screen rotations.
+        binding.vm = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
 
 
         setSupportActionBar(binding.toolbar)
@@ -43,6 +50,11 @@ class TipCalculatorActivity : AppCompatActivity() {
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show()
 //        }
+    }
+
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy")
+        super.onDestroy()
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -61,3 +73,5 @@ class TipCalculatorActivity : AppCompatActivity() {
 //        }
 //    }
 }
+
+const val TAG = "TipCalculatorActivity"

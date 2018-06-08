@@ -12,7 +12,8 @@ import com.thedancercodes.tipcalculator.model.TipCalculation
  *
  * It will also do the work to translate the Strings to Double & Int objects as necessary.
  */
-class CalculatorViewModel(val app: Application, val calculator: Calculator = Calculator()) : BaseObservable() {
+class CalculatorViewModel @JvmOverloads constructor(
+        app: Application, val calculator: Calculator = Calculator()) : ObservableViewModel(app) {
 
     // Variable and Actions that the View can bind to and call directly.
     var inputCheckAmount = ""
@@ -34,9 +35,9 @@ class CalculatorViewModel(val app: Application, val calculator: Calculator = Cal
 
     // Encapsulation of work in private function
     private fun updateOutputs(tc: TipCalculation) {
-        outputCheckAmount = app.getString(R.string.dollar_amount, tc.checkAmount)
-        outputTipAmount = app.getString(R.string.dollar_amount, tc.tipAmount)
-        outputTotalDollarAmount = app.getString(R.string.dollar_amount, tc.grandTotal)
+        outputCheckAmount = getApplication<Application>().getString(R.string.dollar_amount, tc.checkAmount)
+        outputTipAmount = getApplication<Application>().getString(R.string.dollar_amount, tc.tipAmount)
+        outputTotalDollarAmount = getApplication<Application>().getString(R.string.dollar_amount, tc.grandTotal)
     }
 
     /**

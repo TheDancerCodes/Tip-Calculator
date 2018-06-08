@@ -1,9 +1,10 @@
 package com.thedancercodes.tipcalculator.model
 
+import android.arch.lifecycle.LiveData
 import java.math.RoundingMode
 
-
-class Calculator {
+// Add TipCalculationRepository as a dependency in the constructor
+class Calculator(val repository: TipCalculationRepository = TipCalculationRepository()) {
 
     fun calculateTip(checkAmount: Double, tipPct: Int) : TipCalculation {
 
@@ -20,6 +21,19 @@ class Calculator {
                 tipAmount = tipAmount,
                 grandTotal = grandTotal
         )
+    }
+
+    // Save and Load functions tha delegate work to the repository
+    fun saveTipCalculation(tc: TipCalculation) {
+        repository.saveTipCalculation(tc)
+    }
+
+    fun loadTipCalcuclationByLocationName(locationName: String) : TipCalculation? {
+        return repository.loadTipCalculationByName(locationName)
+    }
+
+    fun loadSavedTipCalculations() : LiveData<List<TipCalculation>> {
+        return repository.loadSavedTipCalculations()
     }
 
 }

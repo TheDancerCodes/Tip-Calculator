@@ -1,5 +1,7 @@
 package com.thedancercodes.tipcalculator.viewmodel
 
+import android.app.Application
+import com.thedancercodes.tipcalculator.R
 import com.thedancercodes.tipcalculator.model.Calculator
 import com.thedancercodes.tipcalculator.model.TipCalculation
 import junit.framework.TestCase.assertEquals
@@ -31,6 +33,11 @@ class CalculatorViewModelTest {
     @Mock
     lateinit var mockCalculator: Calculator
 
+    // Mock an Application Object
+    @Mock
+    lateinit var application: Application
+
+
     // Re-initialize the ViewModel before every test.
     @Before
     fun setup() {
@@ -38,8 +45,15 @@ class CalculatorViewModelTest {
         // Mock objects.
         MockitoAnnotations.initMocks(this)
 
+        stubResource(0.0, "$0.00")
+
         // CalculatorViewModel Constructor
-        calculatorViewModel = CalculatorViewModel(mockCalculator)
+        calculatorViewModel = CalculatorViewModel(application, mockCalculator)
+    }
+
+    // Helper function: Given a Double returns the expected String result
+    private fun stubResource(given: Double, returnStub: String) {
+        `when`(application.getString(R.string.dollar_amount, given)).thenReturn(returnStub)
     }
 
     // Simple test that sets the inputs on the ViewModel, invokes calculateTip() on the ViewModel's
@@ -56,9 +70,18 @@ class CalculatorViewModelTest {
         val stub = TipCalculation(checkAmount = 10.00, tipAmount = 1.5, grandTotal = 11.5)
         `when`(mockCalculator.calculateTip(10.00, 15)).thenReturn(stub)
 
+        stubResource(10.0, "$10.00")
+        stubResource(1.5, "$1.50")
+        stubResource(11.5, "$11.50")
+
         calculatorViewModel.calculateTip()
 
-        assertEquals(stub, calculatorViewModel.tipCalculation)
+
+        // Assert that output strings set up in the ViewModel match our expectation
+        // based on this calculation
+        assertEquals("$10.00", calculatorViewModel.outputCheckAmount)
+        assertEquals("$1.50", calculatorViewModel.outputTipAmount)
+        assertEquals("$11.50", calculatorViewModel.outputTotalDollarAmount)
     }
 
     // Validate that the View Model doesn't call calculateTip() on the Model

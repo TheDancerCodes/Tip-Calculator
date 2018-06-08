@@ -1,8 +1,8 @@
 package com.thedancercodes.tipcalculator.viewmodel
 
-import android.content.ContentValues.TAG
+import android.app.Application
 import android.databinding.BaseObservable
-import android.util.Log
+import com.thedancercodes.tipcalculator.R
 import com.thedancercodes.tipcalculator.model.Calculator
 import com.thedancercodes.tipcalculator.model.TipCalculation
 
@@ -12,16 +12,32 @@ import com.thedancercodes.tipcalculator.model.TipCalculation
  *
  * It will also do the work to translate the Strings to Double & Int objects as necessary.
  */
-class CalculatorViewModel(val calculator: Calculator = Calculator()) : BaseObservable() {
+class CalculatorViewModel(val app: Application, val calculator: Calculator = Calculator()) : BaseObservable() {
 
     // Variable and Actions that the View can bind to and call directly.
     var inputCheckAmount = ""
 
     var inputTipPercentage = ""
 
-    // Variable for tipCalculation & View combined directly to it.
-    var tipCalculation = TipCalculation()
+    // Output Variables
+    var outputCheckAmount = ""
+    var outputTipAmount = ""
+    var outputTotalDollarAmount = ""
 
+    // Initialization Block
+    init {
+
+        // Pass in an empty tip calculation which will initially set the variables to 0.00
+        updateOutputs(TipCalculation())
+
+    }
+
+    // Encapsulation of work in private function
+    private fun updateOutputs(tc: TipCalculation) {
+        outputCheckAmount = app.getString(R.string.dollar_amount, tc.checkAmount)
+        outputTipAmount = app.getString(R.string.dollar_amount, tc.tipAmount)
+        outputTotalDollarAmount = app.getString(R.string.dollar_amount, tc.grandTotal)
+    }
 
     /**
      * When FAB is clicked, we work with the model to perform the calculation.
@@ -35,9 +51,6 @@ class CalculatorViewModel(val calculator: Calculator = Calculator()) : BaseObser
      */
     fun calculateTip() {
 
-        // Logs to show that we invoke the calculateTip() function on the VM when FAB is clicked.
-        Log.d(TAG, "calculateTipInvoked")
-
         // Validate and translate the values that will be set by the View into the required types:
         val checkAmount = inputCheckAmount.toDoubleOrNull()
         val tipPct = inputTipPercentage.toIntOrNull()
@@ -47,22 +60,10 @@ class CalculatorViewModel(val calculator: Calculator = Calculator()) : BaseObser
         // perform the Models tip calculation method on them
         if (checkAmount != null && tipPct != null) {
 
-            Log.d(TAG, "CheckAmount: $checkAmount, TipPercentage: $tipPct")
-
-            tipCalculation = calculator.calculateTip(checkAmount, tipPct)
-            clearInputs()
+            // Update output values each time we calculate a tip
+            updateOutputs(calculator.calculateTip(checkAmount, tipPct))
+            notifyChange()
 
         }
-    }
-
-    fun clearInputs() {
-        inputCheckAmount = "0.00"
-        inputTipPercentage = "0"
-
-        // Method provided by the BaseObservable base class
-        // that indicates all properties might have changed.
-
-        // Called after we have updated both of our inputs.
-        notifyChange()
     }
 }

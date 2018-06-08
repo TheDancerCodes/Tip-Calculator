@@ -6,4 +6,10 @@
     <string name="bill_amount_label">Check</string>
     <string name="tip_amount_label">Tip</string>
     <string name="grand_total_label">Total</string>
+
+    <!--Android string localisation and formatting functionality.-->
+    <!--A new string to format a double in the format of a currency that we expect with a $
+            and 2 decimal places after the dollar amount -->
+    <string name="dollar_amount">$%1$.02f</string>
+
 </resources>

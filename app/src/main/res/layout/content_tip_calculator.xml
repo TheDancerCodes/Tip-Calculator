@@ -87,7 +87,8 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="$20.00"
+                    tools:text="$20.00"
+                    android:text="@{vm.outputCheckAmount}"
                     android:textAlignment="center" />
 
                 <TextView
@@ -111,7 +112,8 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="$1.50"
+                    tools:text="$1.50"
+                    android:text="@{vm.outputTipAmount}"
                     android:textAlignment="center" />
 
                 <TextView
@@ -135,7 +137,8 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="$21.50"
+                    tools:text="$21.50"
+                    android:text="@{vm.outputTotalDollarAmount}"
                     android:textAlignment="center" />
 
                 <TextView

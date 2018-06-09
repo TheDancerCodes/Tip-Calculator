@@ -87,9 +87,9 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="$20.00"
                     android:text="@{vm.outputCheckAmount}"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    tools:text="$20.00" />
 
                 <TextView
                     android:id="@+id/bill_amount_label"
@@ -112,9 +112,9 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="$1.50"
                     android:text="@{vm.outputTipAmount}"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    tools:text="$1.50" />
 
                 <TextView
                     android:id="@+id/tip_amount_label"
@@ -137,9 +137,9 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="$21.50"
                     android:text="@{vm.outputTotalDollarAmount}"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    tools:text="$21.50" />
 
                 <TextView
                     android:id="@+id/grand_total_label"
@@ -152,6 +152,21 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <!-- Display location name to user if one has been set for a tip -->
+        <TextView
+            android:id="@+id/calculation_name"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@{vm.locationName}"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calculation_outputs"
+            tools:text="Planet Yogurt" />
 
 
     </android.support.constraint.ConstraintLayout>

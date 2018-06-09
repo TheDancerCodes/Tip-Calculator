@@ -15,15 +15,19 @@ import com.thedancercodes.tipcalculator.model.TipCalculation
 class CalculatorViewModel @JvmOverloads constructor(
         app: Application, val calculator: Calculator = Calculator()) : ObservableViewModel(app) {
 
+    // Private Variable to store last calculated tip
+    private var lastTipCalculated = TipCalculation()
+
     // Variable and Actions that the View can bind to and call directly.
     var inputCheckAmount = ""
 
     var inputTipPercentage = ""
 
     // Output Variables
-    var outputCheckAmount = ""
-    var outputTipAmount = ""
-    var outputTotalDollarAmount = ""
+    val outputCheckAmount get() = getApplication<Application>().getString(R.string.dollar_amount, lastTipCalculated.checkAmount)
+    val outputTipAmount get() = getApplication<Application>().getString(R.string.dollar_amount, lastTipCalculated.tipAmount)
+    val outputTotalDollarAmount get() = getApplication<Application>().getString(R.string.dollar_amount, lastTipCalculated.grandTotal)
+    val locationName get() = lastTipCalculated.locationName
 
     // Initialization Block
     init {
@@ -35,9 +39,21 @@ class CalculatorViewModel @JvmOverloads constructor(
 
     // Encapsulation of work in private function
     private fun updateOutputs(tc: TipCalculation) {
-        outputCheckAmount = getApplication<Application>().getString(R.string.dollar_amount, tc.checkAmount)
-        outputTipAmount = getApplication<Application>().getString(R.string.dollar_amount, tc.tipAmount)
-        outputTotalDollarAmount = getApplication<Application>().getString(R.string.dollar_amount, tc.grandTotal)
+        // update the last tip calculated
+        lastTipCalculated = tc
+        notifyChange()
+    }
+
+    fun saveCurrentTip(name: String) {
+
+        // CurrentTipCalculation with LocationName added
+        val tipToSave = lastTipCalculated.copy(locationName = name)
+
+        calculator.saveTipCalculation(tipToSave)
+
+        updateOutputs(tipToSave)
+//        notifyChange()
+
     }
 
     /**
@@ -63,8 +79,6 @@ class CalculatorViewModel @JvmOverloads constructor(
 
             // Update output values each time we calculate a tip
             updateOutputs(calculator.calculateTip(checkAmount, tipPct))
-            notifyChange()
-
         }
     }
 }

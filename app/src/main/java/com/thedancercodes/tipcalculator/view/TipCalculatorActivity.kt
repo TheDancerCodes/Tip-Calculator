@@ -27,6 +27,9 @@ class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback {
 
     // Snack bar to show user that we have saved tip under the name they entered
     override fun onSaveTip(name: String) {
+        // Invoke saveCurrentTip on the VM passing the name along
+        binding.vm?.saveCurrentTip(name)
+
         Snackbar.make(binding.root, "Saved $name", Snackbar.LENGTH_SHORT).show()
     }
 

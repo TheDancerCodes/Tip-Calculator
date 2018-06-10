@@ -13,7 +13,7 @@ import com.thedancercodes.tipcalculator.databinding.ActivityTipCalculatorBinding
 import com.thedancercodes.tipcalculator.viewmodel.CalculatorViewModel
 
 
-class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback {
+class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback, LoadDialogFragment.Callback {
 
     /**
      * Wire ViewModel to View layout in the Activity’s onCreate function & verify that the
@@ -33,6 +33,11 @@ class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback {
         Snackbar.make(binding.root, "Saved $name", Snackbar.LENGTH_SHORT).show()
     }
 
+    override fun onTipSelected(name: String) {
+        // Ask the ViewModel to load the tip by this name
+        Snackbar.make(binding.root, "Loaded $name", Snackbar.LENGTH_SHORT).show()
+    }
+
     // Create a clickable menu item on the upper right corner for our users
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_tip_calcukator, menu)
@@ -49,8 +54,17 @@ class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback {
                 showSaveDialog()
                 true
             }
+            R.id.action_load -> {
+                showLoadDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showLoadDialog() {
+        val loadFragment = LoadDialogFragment()
+        loadFragment.show(supportFragmentManager, "LoadDialog")
     }
 
     // showSaveDialog creates a new instance of our SaveDialogFragment & ask it to show itself.

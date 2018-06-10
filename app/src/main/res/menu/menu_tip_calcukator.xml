@@ -4,4 +4,8 @@
         android:id="@+id/action_save"
         android:title="@string/action_save" />
 
+    <item
+        android:id="@+id/action_load"
+        android:title="@string/action_load" />
+
 </menu>

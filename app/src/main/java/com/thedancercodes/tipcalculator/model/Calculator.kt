@@ -28,7 +28,7 @@ class Calculator(val repository: TipCalculationRepository = TipCalculationReposi
         repository.saveTipCalculation(tc)
     }
 
-    fun loadTipCalcuclationByLocationName(locationName: String) : TipCalculation? {
+    fun loadTipCalculationByLocationName(locationName: String) : TipCalculation? {
         return repository.loadTipCalculationByName(locationName)
     }
 

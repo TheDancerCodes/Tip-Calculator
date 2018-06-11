@@ -1,6 +1,8 @@
 package com.thedancercodes.tipcalculator.viewmodel
 
 import android.app.Application
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Transformations
 import android.databinding.BaseObservable
 import com.thedancercodes.tipcalculator.R
 import com.thedancercodes.tipcalculator.model.Calculator
@@ -55,6 +57,33 @@ class CalculatorViewModel @JvmOverloads constructor(
 //        notifyChange()
 
     }
+
+    // Fetches all tip calculations from the model & transforms each of the results inside the
+    // LiveData into tip calculation summary items which are needed by the View
+    fun loadSavedTipCalculationSummaries() : LiveData<List<TipCalculationSummaryItem>> {
+        return Transformations.map(calculator.loadSavedTipCalculations(), { tipCalculationObjects ->
+            tipCalculationObjects.map {
+                TipCalculationSummaryItem(it.locationName,
+                        getApplication<Application>().getString(R.string.dollar_amount, it.grandTotal))
+            }
+        })
+    }
+
+    // Function to load the tip when the user selects it.
+    // Load the tip by name from the model & notify the view that these variables have changed.
+    fun loadTipCalculation(name: String) {
+
+        val tc = calculator.loadTipCalculationByLocationName(name)
+
+        if (tc != null) {
+            inputCheckAmount = tc.checkAmount.toString()
+            inputTipPercentage = tc.tipPct.toString()
+
+            updateOutputs(tc)
+            notifyChange()
+        }
+    }
+
 
     /**
      * When FAB is clicked, we work with the model to perform the calculation.

@@ -6,6 +6,4 @@
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
     tools:listItem = "@layout/saved_tip_calculations_list_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</android.support.v7.widget.RecyclerView>
+    android:layout_height="match_parent" />

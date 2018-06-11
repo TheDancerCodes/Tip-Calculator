@@ -35,6 +35,7 @@ class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback, 
 
     override fun onTipSelected(name: String) {
         // Ask the ViewModel to load the tip by this name
+        binding.vm?.loadTipCalculation(name)
         Snackbar.make(binding.root, "Loaded $name", Snackbar.LENGTH_SHORT).show()
     }
 
@@ -76,8 +77,6 @@ class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        Log.d(TAG, "onCreate")
-
         super.onCreate(savedInstanceState)
 
         // Replace Android setContentView with a special DataBinding version which associates
@@ -92,17 +91,5 @@ class TipCalculatorActivity : AppCompatActivity(), SaveDialogFragment.Callback, 
 
 
         setSupportActionBar(binding.toolbar)
-
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//        }
-    }
-
-    override fun onDestroy() {
-        Log.d(TAG, "onDestroy")
-        super.onDestroy()
     }
 }
-
-const val TAG = "TipCalculatorActivity"
